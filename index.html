@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags --> 
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>RSUD Tanduale</title>
+		<link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+		<link rel="stylesheet" href="vendors/owl.carousel/css/owl.carousel.css">
+		<link rel="stylesheet" href="vendors/owl.carousel/css/owl.theme.default.min.css">
+		<link rel="stylesheet" href="vendors/aos/css/aos.css">
+		<link rel="stylesheet" href="vendors/jquery-flipster/css/jquery.flipster.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="shortcut icon" href="images/favicon.png" />
+		<style>
+		/* Style modal */
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed;
+			z-index: 1000;
+			padding-top: 100px;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9); /* Black background with opacity */
+		}
+
+		/* Modal Content (the image) */
+		.modal-content {
+			margin: auto;
+			display: block;
+			max-width: 90%; /* Membatasi lebar gambar maksimal hingga 70% dari lebar layar */
+			max-height: 90vh; /* Membatasi tinggi gambar maksimal hingga 90% dari tinggi layar */
+			width: auto; /* Menjaga aspek rasio gambar */
+			height: auto; /* Menjaga aspek rasio gambar */
+			object-fit: contain; /* Memastikan gambar tidak terpotong dan tetap menjaga aspek rasio */
+		}
+
+		/* Close button */
+		.close {
+    position: absolute;
+    bottom: 50px; /* Posisi di bawah gambar */
+    left: 50%; /* Posisi di tengah secara horizontal */
+    transform: translateX(-50%); /* Pastikan posisi benar-benar di tengah */
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+		.islidertag {
+			position: relative;
+			display: block;
+			width: 500px;
+			height: 300px;
+			overflow: hidden;
+			border-radius: 5px;
+		}
+
+		.islidertag:before, .islidertag:after {
+			content: '⥪';
+			position: absolute;
+			top: 50%;
+			left: 1rem;
+			z-index: 2;
+			width: 2rem;
+			height: 2rem;
+			background: dodgerblue;
+			color: white;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			pointer-events: none;
+		}
+
+		.islidertag:after {
+			content: '⥭';
+			left: auto;
+			right: 1rem;
+		}
+
+		/* I haven't found a way for IE and Edge to let me style inputs that way */
+		.inputclider {
+			appearance: none;
+			-ms-appearance: none;
+			-webkit-appearance: none;
+			display: block;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border-radius: 5px;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			transform: translateX(100%);
+			transition: transform ease-in-out 400ms;
+			z-index: 1;
+		}
+
+		.inputclider:focus {
+			outline: none;
+		}
+
+		.inputclider:after {
+			content: attr(title);
+			position: absolute;
+			top: 1rem;
+			left: 1rem;
+			background-color: rgba(0,0,0,0.4);
+			color: white;
+			padding: .5rem;
+			font-size: 1rem;
+			border-radius: 5px;
+		}
+
+		.inputclider:not(checked):before {
+			content: '';
+			position: absolute;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			top: 50%;
+			left: calc(-100% + 1rem);
+		}
+
+		.inputclider:checked:before {
+			display: none;
+			left: 1rem;
+		}
+
+		.inputclider:checked {
+			transform: translateX(0);
+			pointer-event: none;
+			z-index: 0;
+			box-shadow: -5px 10px 20px -15px rgba(0,0,0,1);
+		}
+
+		.inputclider:checked + .inputclider:before {
+			left: -3rem;
+		}
+
+		.inputclider:checked + .inputclider ~ .inputclider:before {
+			display: none;
+		}
+
+	.band {
+	  width: 90%;
+	  max-width: 1240px;
+	  margin: 0 auto;
+	  
+	  display: grid;
+	  
+	  grid-template-columns: 1fr;
+	  grid-template-rows: auto;
+	  grid-gap: 20px;
+	  
+	  @media (min-width: 30em) {
+		grid-template-columns: 1fr 1fr;
+	  }
+	  
+	  @media (min-width: 60em) {
+		grid-template-columns: repeat(4, 1fr);
+	  }
+	}
+	
+	.cards {
+	  background: white;
+	  text-decoration: none;
+	  color: #444;
+	  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	  display: flex;
+	  flex-direction: column;
+	  min-height: 100%;
+	  
+	  position: relative;
+	  top: 0;
+	  transition: all .1s ease-in;
+		
+	  &:hover {
+		top: -2px;
+		box-shadow: 0 4px 5px rgba(0,0,0,0.2);
+	  }
+	  
+	  .articlefoo {
+		padding: 20px;
+		flex: 1;
+		
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	  }
+	  
+	  .judulh1 {
+		font-size: 20px;
+		margin: 0;
+		color: #333;
+	  }
+	  
+	  .thumb {
+		padding-bottom: 60%;
+		background-size: cover;
+		background-position: center center;
+	  }
+	}
+	
+	.item-1 {
+	  @media (min-width: 60em) {
+		grid-column: 1 / span 2;
+		
+		h1 {
+		  font-size: 24px;
+		}
+	  }
+	}
+		</style>
+	</head>
+	<body data-spy="scroll" data-target=".navbar" data-offset="50">
+		<div id="mobile-menu-overlay"></div>
+		<nav class="navbar navbar-expand-lg fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="#"><img src="Navy_Blue_Minimalist_Text_Logo-removebg-preview.png" alt="Marshmallow"></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"><i class="mdi mdi-menu"> </i></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+					<div class="d-lg-none d-flex justify-content-between px-4 py-3 align-items-center">
+						<img src="logo-mobile.png" class="logo-mobile-menu" alt="logo">
+						<a href="javascript:;" class="close-menu"><i class="mdi mdi-close"></i></a>
+					</div>
+					<ul class="navbar-nav ml-auto align-items-center">
+						<li class="nav-item active">
+							<a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#services">Cari dokter</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#about">Jadwal dokter</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#projects">Layanan rumah sakit</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#testimonial">Artikel</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#plans">Kontak</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link btn btn-success" href="#contact">174-394-9560</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="page-body-wrapper">
+			<section id="home" class="home">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="main-banner">
+								<div class="d-sm-flex justify-content-between">
+									<div data-aos="zoom-in-up">
+										<div class="banner-title">
+												<h3 class="font-weight-medium">Melayanani Dengan Tulus Memprioritaskan Kesembuhan
+											</h3>
+										</div>
+										<p class="mt-3">layanan kesehatan masayarakat 
+											<br>
+											kabupaten bombana
+										</p>
+										<a href="#" class="btn btn-secondary mt-3">Panggilan Darurat</a>
+									</div>
+									<div class="mt-5 mt-lg-0">
+										<img src="images/group.png" alt="marsmello" class="img-fluid" data-aos="zoom-in-up">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="our-services" id="services">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<h5 class="text-dark">Selamat datang</h5>
+							<h3 class="font-weight-medium text-dark mb-5">Pelayanan digital</h3>
+						</div>
+					</div>
+					<div class="row" data-aos="fade-up">
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/antrian.svg" alt="integrated-marketing" data-aos="zoom-in" style="width: 80px; height: 80px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">Info antrian
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box"   data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/docter.svg" alt="design-development" data-aos="zoom-in" style="width: 80px; height: 80px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">Cari dokter
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/call center.svg" alt="digital-strategy" data-aos="zoom-in" style="width: 70px; height: 70px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">call center
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="row" data-aos="fade-up">
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box  pb-lg-0" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/ambulance.svg" alt="digital-marketing" data-aos="zoom-in" style="width: 70px; height: 70px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">Ambulance
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box pb-lg-0" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/medical.svg" alt="growth-strategy" data-aos="zoom-in" style="width: 70px; height: 70px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">ICU
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-4 text-center text-lg-left">
+							<div class="services-box pb-0" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+								<img src="images/obat.svg" alt="saving-strategy" data-aos="zoom-in" style="width: 70px; height: 70px;">
+								<h6 class="text-dark mb-3 mt-4 font-weight-medium">Farmasi & apotek
+								</h6>
+								<p>Lorem ipsum dolor sit amet, 
+									pretium pretium tempor.Lorem ipsum 
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="our-process" id="about">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6" data-aos="fade-up">
+							<h5 class="text-dark">Layanan</h5>
+							<h3 class="font-weight-medium text-dark">RSUD Tanduale</h3>
+							<!-- <h5 class="text-dark mb-3">Imagination will take us everywhere</h5> -->
+							<p class="font-weight-medium mb-4">
+								RSUD Tanduale memberikan Pelayanan terbaik di dukung oleh Dokter, paramedis, dan staf yang berkompeten dalam memberikan pelayan terbaik
+							</p>
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Poliklinik</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">UGD (Unit Gawat Darurat)</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Radiologi</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Laboratorium</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Rehabilitasi Medis</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Apotek/Farmasi</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Kamar Operasi</p>
+							</div>
+							
+							<div class="d-flex justify-content-start mb-3">
+								<img src="images/tick.png" alt="tick" class="mr-3 tick-icon">
+								<p class="mb-0">Perawatan Rawat Inap</p>
+							</div>
+							
+						</div>
+						<div class="col-sm-6 text-right" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
+							<img src="images/doctor-6810751_1280.png" alt="idea" class="img-fluid">
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="our-projects" id="projects">
+				<div class="container">
+					<div class="row mb-5">
+						<div class="col-sm-12">
+							<div class="d-sm-flex justify-content-between align-items-center mb-2">
+								<h3 class="font-weight-medium text-dark ">Media</h3>
+								<!-- <div><a href="#" class="btn btn-outline-primary">View more</a></div> -->
+							</div>
+
+							
+						</div>
+					</div>
+				</div>
+
+				<div class="mb-5" data-aos="fade-up">
+					<div class="owl-carousel-projects owl-carousel owl-theme">
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/9f/72/8f/9f728fb4b086684d297502fd4c743557.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/1b/dc/cc/1bdccc2b90c34c050f53bc6ca96e7c1f.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/78/a6/93/78a693995bb8e987612da4bb41a0f961.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/eb/15/88/eb1588055a962c6fd1e44b395ab2f133.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/c5/34/a9/c534a9e5ddd78b440b09ae5ae1ca6e81.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/3d/c5/54/3dc55441f4aa448de1d656811b41e753.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/13/67/f4/1367f4ab0ce2e218cba1ea2ca82089e4.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/c7/a6/a0/c7a6a0ed01e0f1def630502d68019778.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/e8/a7/2e/e8a72eb9d81a365a802dbc8264d03283.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/736x/41/8e/f4/418ef43c4ded87810374a9beea33c0d8.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/736x/db/5d/ea/db5dea2caaa75e7219d218f76ba1f976.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/95/0f/d8/950fd8d1fe0b6366dc04ca42c71ecef0.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/564x/cc/3c/32/cc3c324f6974e5e227aba239a0e444f0.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/736x/25/66/d6/2566d6203c4533eeb873d6b16c35e2d2.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+						<div class="item">
+							<img src="https://i.pinimg.com/736x/4d/14/28/4d1428f6af59c3755c01b41b493b35ac.jpg" alt="slider" onclick="openModal(this)">
+						</div>
+					</div>
+
+				
+				</div>
+
+				<script>
+								// Function to open modal with the clicked image
+			function openModal(imgElement) {
+				var modal = document.getElementById("myModal");
+				var modalImg = document.getElementById("img01");
+
+				// Set the src of the modal image to the src of the clicked image
+				modalImg.src = imgElement.src;
+				
+				// Display the modal
+				modal.style.display = "block";
+			}
+
+			// Function to close modal
+			function closeModal() {
+				var modal = document.getElementById("myModal");
+				modal.style.display = "none";
+			}
+
+				</script>
+									<div id="myModal" class="modal">
+										<img class="modal-content" id="img01">
+										<span class="close" onclick="closeModal()">&times;</span>
+									</div>
+				<div class="container">
+					<div class="row pt-5 mt-5 pb-5 mb-5">
+						<div class="col-sm-3">
+							<div class="d-flex py-3 my-3 my-lg-0 justify-content-center" data-aos="fade-down">
+								<img src="images/docter.svg" alt="satisfied-client" class="mr-3" style="width: 80px; height: 80px;">
+
+								<div>
+									<h4 class="font-weight-bold text-dark mb-0">8</h4>
+									<h5 class="text-dark mb-0">DOKTER</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="d-flex py-3 my-3 my-lg-0 justify-content-center" data-aos="fade-up">
+								<img src="images/perawat.svg" alt="satisfied-client" class="mr-3" style="width: 80px; height: 80px;">
+								<div>
+									<h4 class="font-weight-bold text-dark mb-0">81</h4>
+									<h5 class="text-dark mb-0">Perawat</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="d-flex py-3 my-3 my-lg-0 justify-content-center" data-aos="fade-down">
+								<img src="images/staf.svg" alt="Team Members" class="mr-3" style="width: 80px; height: 80px;">
+								<div>
+									<h4 class="font-weight-bold text-dark mb-0">35</h4>
+									<h5 class="text-dark mb-0">Staf</h5>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="d-flex py-3 my-3 my-lg-0 justify-content-center" data-aos="fade-up">
+								<img src="images/medical.svg" alt="Our Blog Posts" class="mr-3" style="width: 80px; height: 80px;">
+								<div>
+									<h4 class="font-weight-bold text-dark mb-0">11</h4>
+									<h5 class="text-dark mb-0">Apoterker</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="band">
+				<div>
+					<h3 class="font-weight-medium text-dark ">Berita & Informasi</h3>
+					<h5 class="text-dark ">Berita, Informasi, trick, tips</h5>
+				</div>
+				<div class="item-1">
+					<a href="https://www.example.com/health-article1" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/68/72/87/687287ce70c87d4f13d79df825df2685.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Kemajuan Terbaru dalam Kardiologi</h1>
+							<span>Dr. John Smith</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-2">
+					<a href="https://www.example.com/health-article2" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/64/79/bb/6479bb53a982b06a9da3dc49758b2470.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Cara Mengelola Diabetes dengan Efektif</h1>
+							<span>Dr. Jane Doe</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-3">
+					<a href="https://www.example.com/health-article3" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/b0/0d/1a/b00d1a85d8c61368fb09ca5d66cee1bf.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Memahami Manfaat Pengobatan Preventif</h1>
+							<p>Temukan pentingnya langkah-langkah pencegahan dalam menjaga kesehatan jangka panjang dan bagaimana pemeriksaan rutin dapat membantu Anda tetap waspada terhadap masalah kesehatan potensial.</p>
+							<span>Dr. Emily White</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-4">
+					<a href="https://www.example.com/health-article4" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/9d/0e/d6/9d0ed63ec42ac1c6c94b78a7b0a32f51.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Cara Membuat Rencana Diet Seimbang</h1>
+							<p>Pelajari dasar-dasar diet seimbang, termasuk cara menggabungkan berbagai kelompok makanan dan mengelola asupan nutrisi Anda untuk kesehatan yang optimal.</p>
+							<span>Dr. Michael Green</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-5">
+					<a href="https://www.example.com/health-article5" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/736x/8a/5d/1f/8a5d1f15891321aef26d22f9c3a69330.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Kemajuan dalam Pengobatan dan Penelitian Kanker</h1>
+							<span>Dr. Susan Lee</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-6">
+					<a href="https://www.example.com/health-article6" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/6e/18/e0/6e18e0dd4d43a74818518cb3f3fe4fc3.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">5 Tips untuk Menjaga Kesehatan Mental di Tempat Kerja</h1>
+							<p>Temukan berbagai strategi untuk menjaga kesehatan mental Anda saat bekerja, termasuk teknik manajemen stres dan cara meningkatkan keseimbangan kerja-hidup.</p>
+							<span>Dr. Lisa Johnson</span>
+						</article>
+					</a>
+				</div>
+				<div class="item-7">
+					<a href="https://www.example.com/health-article7" class="cards">
+						<div class="thumb" style="background-image: url(https://i.pinimg.com/564x/1a/01/5f/1a015f293458c3bc83fb5745d7dccd0f.jpg);"></div>
+						<article class="articlefoo">
+							<h1 class="judulh1">Peran Teknologi dalam Perawatan Kesehatan Modern</h1>
+							<p>Eksplorasi bagaimana teknologi terbaru sedang mengubah lanskap perawatan kesehatan, termasuk inovasi dalam telemedicine dan perangkat medis pintar.</p>
+							<span>Dr. Robert Brown</span>
+						</article>
+					</a>
+				</div>
+				
+			  </div>
+			  <br><br><br>
+			<section class="testimonial" id="testimonial">
+				<div class="container">
+					<div class="row  mt-md-0 mt-lg-4">
+						<div class="col-sm-6 text-white" data-aos="fade-up">
+							<p class="font-weight-bold mb-3">Keluarga kami</p>
+							<h3 class="font-weight-medium">Beberapa petinggi <br> Dokter, perawat dan staf kami</h3>
+							<ul class="flipster-custom-nav">
+								<li class="flipster-custom-nav-item">
+									<a href="javascript:;" class="flipster-custom-nav-link" title="0"></a>
+								</li>
+								<li class="flipster-custom-nav-item">
+									<a href="javascript:;" class="flipster-custom-nav-link"  title="1"></a>
+								</li>
+								<li class="flipster-custom-nav-item">
+									<a href="javascript:;" class="flipster-custom-nav-link active" title="2"></a>
+								</li>
+								<li class="flipster-custom-nav-item">
+									<a href="javascript:;" class="flipster-custom-nav-link"  title="3"></a>
+								</li>
+							</ul>
+						</div>
+						<div class="col-sm-6" data-aos="fade-up">
+							<div id="testimonial-flipster">
+								<ul>
+									<li>
+										<div class="testimonial-item">
+											<img src="https://i.pinimg.com/564x/16/96/71/169671343ef815d20808e6c9e43c5c19.jpg" alt="icon" class="testimonial-icons">
+											<p>"Dr. Andi Setiawan adalah spesialis bedah dengan pengalaman 15 tahun. Lulus dari Universitas Indonesia dan Rumah Sakit Cipto Mangunkusumo. Terkenal karena keterampilannya yang tinggi dan aktif dalam penelitian medis."</p>
+											<h6 class="testimonial-author">Dr. Andi Setiawan</h6>
+											<p class="testimonial-destination">Spesialis Bedah</p>
+										</div>
+									</li>
+									<li>
+									    <div class="testimonial-item">
+											<img src="https://i.pinimg.com/564x/0c/46/45/0c4645c694abaa424ad3fa62550f2122.jpg" alt="icon" class="testimonial-icons">
+											<p>"Suster Maya Rahayu adalah perawat senior dengan lebih dari 10 tahun pengalaman. Lulusan Universitas Kristen Satya Wacana dan dikenal karena dedikasinya dan keterampilannya dalam perawatan intensif."</p>
+											<h6 class="testimonial-author">Suster Maya Rahayu</h6>
+											<p class="testimonial-destination">Perawat Senior</p>
+										</div>
+									</li>
+									<li>
+										<div class="testimonial-item">
+											<img src="https://i.pinimg.com/736x/cc/57/c3/cc57c37ed983966367bae5ace00496f2.jpg" alt="icon" class="testimonial-icons">
+											<p>"Dr. Budi Santoso adalah Direktur Medis dengan 20 tahun pengalaman. Lulusan Universitas Airlangga dan University of London. Dikenal karena kepemimpinannya dan komitmennya terhadap peningkatan layanan kesehatan."</p>
+											<h6 class="testimonial-author">Dr. Budi Santoso</h6>
+											<p class="testimonial-destination">Direktur Medis</p>
+										</div>
+									</li>
+									<li>
+										<div class="testimonial-item">
+											<img src="https://i.pinimg.com/564x/f5/9e/e4/f59ee4d21909ed6503e89b4a70d91650.jpg" alt="icon" class="testimonial-icons">
+											<p>"Dr. Rina Wulandari adalah ahli penyakit dalam dengan kontribusi besar di RSUD Tanduale. Lulus dari Universitas Gadjah Mada dan Rumah Sakit dr. Sardjito, terkenal karena pendekatan holistiknya terhadap perawatan pasien."</p>
+											<h6 class="testimonial-author">Dr. Rina Wulandari</h6>
+											<p class="testimonial-destination">Ahli Penyakit Dalam</p>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		<section class="clients pt-5 mt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="d-flex flex-wrap justify-content-center align-items-center">
+							<img src="logo-mobile.png" alt="deloit" class="p-2 p-lg-0 mx-auto">
+							<img src="download-logo-kabupaten-bombana-provinsi-sulawesi-tenggara-vector-png-logoawal.png" alt="erricson" class="p-2 p-lg-0 mx-auto" style="width: 220px; height: 200px;">
+							<img src="images/Logo-bakti-husada-terbaru.jpeg" alt="netflix" class="p-2 p-lg-0 mx-auto" style="width: 270px; height: 250px;">
+							<img src="logo bpjs.png" alt="instagram" class="p-2 p-lg-0 mx-auto" style="width: 30%; height: 30%;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+<section class="pricing-list" id="plans">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="d-sm-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <h3 class="font-weight-medium text-dark ">Sosial media</h3>
+                        <h5 class="text-dark ">Kunjungi sosial media kami untuk melihat berbagai kegiatan dan agenda kami</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="pricing-box selected">
+                    <img src="images/whatsapp-873316_1280.png" alt="starter" style="width: 70px; height: 70px;">
+                    <h6 class="font-weight-medium title-text">Whatsapp</h6>
+                    <a href="#" class="btn btn-outline-primary">Kunjungi</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="pricing-box selected">
+                    <img src="images/facebook-2429746_1280.png" alt="starter" style="width: 70px; height: 70px;">
+                    <h6 class="font-weight-medium title-text">Facebook</h6>
+                    <a href="#" class="btn btn-primary">Kunjungi</a>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="pricing-box selected">
+                    <img src="images/instagram-6338401_1280.png" alt="starter" style="width: 70px; height: 70px;">
+                    <h6 class="font-weight-medium title-text">Instagram</h6>
+                    <a href="#" class="btn btn-outline-primary">Kunjungi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+			<section class="contactus" id="contact">
+				<div class="container">
+					<div class="row mb-5 pb-5">
+						<div class="col-sm-5" >
+							<img src="images/contact.jpg" alt="contact" class="img-fluid">
+						</div>
+						<div class="col-sm-7" >
+							<h3 class="font-weight-medium text-dark mt-5 mt-lg-0">Beri masukan</h3>
+							<h5 class="text-dark mb-5">Saran dan kritik anda sangan membantu dalam pelayanan kami</h5>
+							<form>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input type="text" class="form-control" id="name" placeholder="Name*">
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<input type="email" class="form-control" id="mail" placeholder="Email*">
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<textarea name="message" id="message" class="form-control" placeholder="Message*" rows="5"></textarea>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<a href="#" class="btn btn-secondary">SEND</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<footer class="footer">
+			<div class="footer-top">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6">
+							<address>
+								<p>Lantowua, Kec. Rarowatu Utara, </p>
+								<p class="mb-4">Kabupaten Bombana, Sulawesi Tenggara</p>
+								<div class="d-flex align-items-center">
+									<p class="mr-4 mb-0">+3 123 456 789</p>
+									<a href="mailto:info@yourmail.com" class="footer-link">rsudtanduale.co.id</a>
+								</div>
+							</address>
+							<div class="social-icons">
+								<h6 class="footer-title font-weight-bold">
+									Social Share
+								</h6>
+								<div class="d-flex">
+									<a href="#"><i class="mdi mdi-instagram"></i></a>
+									<a href="#"><i class="mdi mdi-facebook-box"></i></a>
+									<a href="#"><i class="mdi mdi-whatsapp"></i></a>
+									<a href="#"><i class="mdi mdi-twitter"></i></a>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="row">
+								<div class="col-sm-4">
+									<h6 class="footer-title">fast menu</h6>
+									<ul class="list-footer">
+										<li><a href="#" class="footer-link">Home</a></li>
+										<li><a href="#" class="footer-link">Cari docter</a></li>
+										<li><a href="#" class="footer-link">Jadwal dokter</a></li>
+										<li><a href="#" class="footer-link">layanan rumah sakit</a></li>
+										<li><a href="#" class="footer-link">kontak</a></li>
+									</ul>
+								</div>
+								<div class="col-sm-4">
+									<h6 class="footer-title">pelayanan</h6>
+									<ul class="list-footer">
+										<li><a href="#" class="footer-link">medical chak up</a></li>
+										<li><a href="#" class="footer-link">rawat inap</a></li>
+										<li><a href="#" class="footer-link">poli klinik</a></li>
+										<li><a href="#" class="footer-link">Laboratorium</a></li>
+									</ul>
+								</div>
+								<div class="col-sm-4">
+									<h6 class="footer-title">Patners</h6>
+									<ul class="list-footer">
+										<li><a href="#" class="footer-link">BPJS kesehatan</a></li>
+										<li><a href="#" class="footer-link">Prudential</a></li>
+										<li><a href="#" class="footer-link">alinse</a></li>
+										<li><a href="#" class="footer-link">manulive</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="footer-bottom">
+				<div class="container">
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="d-flex align-items-center">
+							<img src="images/logo.svg" alt="logo" class="mr-3"></br>
+							<p class="mb-0 text-small pt-1">© 2019-2020 <a href="https://www.bootstrapdash.com" class="text-white" target="_blank">BootstrapDash</a>. All rights reserved.</p>
+            
+							<p class="mb-0 text-small pt-1 pl-4">Distributed By: <a href="https://www.themewagon.com" class="text-white" target="_blank">Themewagon</a></p>
+						</div>
+           
+						<div>
+							<div class="d-flex">
+								<a href="#" class="text-small text-white mx-2 footer-link">Privacy Policy </a>          
+								<a href="#" class="text-small text-white mx-2 footer-link">Customer Support </a>
+								<a href="#" class="text-small text-white mx-2 footer-link">Careers Guide</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div> -->
+		</footer>
+		<script src="vendors/base/vendor.bundle.base.js"></script>
+		<script src="vendors/owl.carousel/js/owl.carousel.js"></script>
+		<script src="vendors/aos/js/aos.js"></script>
+		<script src="vendors/jquery-flipster/js/jquery.flipster.min.js"></script>
+		<script src="js/template.js"></script>
+	</body>
+</html>
